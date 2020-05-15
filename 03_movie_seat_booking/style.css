@@ -1,0 +1,19 @@
+@import url("https://fonts.googleapis.com/css2?family=Lato&display=swap");
+
+/* reset box sizing */
+* {
+  box-sizing: border-box;
+}
+
+/* body */
+body {
+  background-color: #242333;
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  font-family: "Lato", "sans-serif";
+  margin: 0;
+}
