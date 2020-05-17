@@ -39,7 +39,7 @@ h1 {
   padding: 10px;
 }
 
-.controls {
+.controls .btn {
   border: 0;
   background: transparent;
   cursor: pointer;
