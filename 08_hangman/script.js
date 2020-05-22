@@ -8,8 +8,8 @@ const finalMessage = document.getElementById("final-message");
 const figureParts = document.querySelectorAll(".figure-part");
 
 const words = ["application", "programming", "interface", "wizard"];
-// const selectedWord = words[Math.floor(Math.random() * words.length)];
-const selectedWord = "wizard";
+let selectedWord = words[Math.floor(Math.random() * words.length)];
+// const selectedWord = "wizard";
 console.log(selectedWord);
 
 const correctLetters = [];
@@ -39,7 +39,27 @@ function displayWord() {
 
 // update the wrong letters
 function updateWrongLettersEl() {
-  console.log("Update wrong");
+  // show the list of wrong letters entered
+  wrongLettersEl.innerHTML = `
+    ${wrongLetters.length > 0 ? "<p>Wrong</p>" : ""}
+    ${wrongLetters.map((letter) => `<span>${letter}</span>`)}
+  `;
+
+  //update figure
+  figureParts.forEach((part, index) => {
+    const errors = wrongLetters.length;
+    if (index < errors) {
+      part.style.display = "block";
+    } else {
+      part.style.display = "none";
+    }
+  });
+
+  // check if lost
+  if (wrongLetters.length === figureParts.length) {
+    finalMessage.innerText = "Unfortunately you lost. 😕";
+    popup.style.display = "flex";
+  }
 }
 
 // show notification
@@ -72,6 +92,20 @@ window.addEventListener("keydown", (e) => {
       }
     }
   }
+});
+
+// restart game and play again
+
+playAgainBtn.addEventListener("click", () => {
+  // empty arrays
+  correctLetters.splice(0);
+  wrongLetters.splice(0);
+
+  selectedWord = words[Math.floor(Math.random() * words.length)];
+  console.log(selectedWord);
+  displayWord();
+  updateWrongLettersEl();
+  popup.style.display = "none";
 });
 
 displayWord();
