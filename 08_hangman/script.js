@@ -10,6 +10,7 @@ const figureParts = document.querySelectorAll(".figure-part");
 const words = ["application", "programming", "interface", "wizard"];
 // const selectedWord = words[Math.floor(Math.random() * words.length)];
 const selectedWord = "wizard";
+console.log(selectedWord);
 
 const correctLetters = [];
 const wrongLetters = [];
@@ -35,5 +36,42 @@ function displayWord() {
     popup.style.display = "flex";
   }
 }
+
+// update the wrong letters
+function updateWrongLettersEl() {
+  console.log("Update wrong");
+}
+
+// show notification
+function showNotification() {
+  notification.classList.add("show");
+  setTimeout(() => {
+    notification.classList.remove("show");
+  }, 2000);
+}
+
+// key down letter press
+window.addEventListener("keydown", (e) => {
+  if (e.keyCode >= 65 && e.keyCode <= 90) {
+    const letter = e.key;
+
+    if (selectedWord.includes(letter)) {
+      if (!correctLetters.includes(letter)) {
+        correctLetters.push(letter);
+        displayWord();
+      } else {
+        showNotification();
+      }
+    } else {
+      if (!wrongLetters.includes(letter)) {
+        wrongLetters.push(letter);
+
+        updateWrongLettersEl();
+      } else {
+        showNotification();
+      }
+    }
+  }
+});
 
 displayWord();
