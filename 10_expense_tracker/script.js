@@ -15,6 +15,32 @@ const dummyTransactions = [
 
 let transactions = dummyTransactions;
 
+// add transaction
+function addTransaction(e) {
+  e.preventDefault();
+
+  if (text.value.trim() === "" || amount.value.trim() === "") {
+    alert("Please add a text and amount");
+  } else {
+    const transaction = {
+      id: generateID(),
+      text: text.value,
+      amount: +amount.value,
+    };
+
+    transactions.push(transaction);
+    addTransactionDOM(transaction);
+    updateValues();
+    text.value = "";
+    amount.value = "";
+  }
+}
+
+// generate random id
+function generateID() {
+  return Math.floor(Math.random() * 1000000000);
+}
+
 // add transactions to DOM list
 function addTransactionDOM(transaction) {
   // get sign
@@ -35,6 +61,7 @@ function addTransactionDOM(transaction) {
 // Update the balance, income, and expense
 function updateValues() {
   const amounts = transactions.map((transaction) => transaction.amount);
+  console.log(amounts);
   const total = amounts.reduce((acc, item) => (acc += item), 0).toFixed(2);
 
   const income = amounts
@@ -60,3 +87,6 @@ function init() {
 }
 
 init();
+
+// Event listeners
+form.addEventListener("submit", addTransaction);
