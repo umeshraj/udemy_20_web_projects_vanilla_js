@@ -18,7 +18,6 @@ async function showPosts() {
   const posts = await getPosts();
 
   posts.forEach((post) => {
-    console.log(post.body);
     const postEl = document.createElement("div");
     postEl.classList.add("post");
     postEl.innerHTML = `
@@ -32,5 +31,26 @@ async function showPosts() {
   });
 }
 
+// show loader and fetch more posts
+function showLoading() {
+  loading.classList.add("show");
+  setTimeout(() => {
+    loading.classList.remove("show");
+    setTimeout(() => {
+      limit += 3;
+      showPosts();
+    }, 300);
+  }, 1000);
+}
+
 // show initial posts
 showPosts();
+
+// scroll
+window.addEventListener("scroll", () => {
+  const { scrollTop, scrollHeight, clientHeight } = document.documentElement;
+
+  if (scrollTop + clientHeight >= scrollHeight - 5) {
+    showLoading();
+  }
+});
