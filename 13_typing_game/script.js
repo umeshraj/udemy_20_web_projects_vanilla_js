@@ -41,6 +41,12 @@ let score = 0;
 // init time
 let time = 10;
 
+// focus on text input on start
+text.focus();
+
+// start counting down
+const timeInterval = setInterval(updateTime, 1000);
+
 // generate random word from array
 function getRandomWord() {
   return words[Math.floor(Math.random() * words.length)];
@@ -58,17 +64,42 @@ function updateScore() {
   scoreEl.innerHTML = score;
 }
 
+// update time
+function updateTime() {
+  time--;
+  timeEl.innerHTML = time + "s";
+
+  if (time === 0) {
+    clearInterval(timeInterval);
+    // end game
+    gameOver();
+  }
+}
+
+// game over, show end screen
+function gameOver() {
+  endgameEl.innerHTML = `
+    <h1>Time ran out</h1>
+    <p>Your final score is ${score}</p>
+    <button onclick="location.reload()">Reload</button>
+    `;
+  endgameEl.style.display = "flex";
+}
+
 addWordToDOM();
 
 // Event listeners
 text.addEventListener("input", (e) => {
   const insertedText = e.target.value;
-  console.log(insertedText);
 
   if (insertedText === randomWord) {
     addWordToDOM();
     updateScore();
     // clear
     e.target.value = "";
+
+    // increment time
+    time += 5;
+    updateTime();
   }
 });
